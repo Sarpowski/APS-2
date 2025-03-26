@@ -1,0 +1,9 @@
+# ninja log v6
+0	26	1742982932633084618	CMakeFiles/courseWork.dir/src/global.cpp.o	df37b94eeb664003
+0	43	1742982932634084635	CMakeFiles/courseWork.dir/src/os.cpp.o	d198db3e38a7be77
+1	46	1742982932634084635	CMakeFiles/courseWork.dir/src/task.cpp.o	fd55ae700863b05f
+1	46	1742982932634084635	CMakeFiles/courseWork.dir/src/resource.cpp.o	cc9110f68f3de31b
+1	65	1742982932634084635	CMakeFiles/courseWork.dir/src/test.cpp.o	33c0a5d7d084cf6
+0	412	1742982932633084618	CMakeFiles/courseWork.dir/main.cpp.o	ae27339d66f0f0f3
+1	37	1742983012517858182	CMakeFiles/courseWork.dir/src/test.cpp.o	33c0a5d7d084cf6
+0	38	1742983012516858179	CMakeFiles/courseWork.dir/main.cpp.o	ae27339d66f0f0f3

@@ -1,0 +1,3 @@
+/home/sarpowski/Desktop/LinuxRepoCppStuff/courseWork/cmake-build-debug/CMakeFiles/courseWork.dir
+/home/sarpowski/Desktop/LinuxRepoCppStuff/courseWork/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/sarpowski/Desktop/LinuxRepoCppStuff/courseWork/cmake-build-debug/CMakeFiles/rebuild_cache.dir
