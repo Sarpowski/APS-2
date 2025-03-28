@@ -4,14 +4,13 @@
 
 #include "defs.h"
 
-#define INSERT_TO_TAIL 1
-#define INSERT_TO_HEAD 0
-
 typedef struct Type_Task
 {
 	int ref;
 	int priority;
 	int ceiling_priority;
+    int state;
+    int waiting_event;
 	void (*entry)(void);
 	char* name;
 
@@ -25,17 +24,22 @@ typedef struct Type_resource
 
 } TResource;
 
-extern TTask TaskQueue[MAX_TASK];
+typedef struct Type_event{
+    int status;
+    char* name;
+} TEvent;
 
+extern TTask TaskQueue[MAX_TASK];
 extern TResource ResourceQueue[MAX_RES];
+extern TEvent EventQueue[MAX_EVENT];
 
 extern int RunningTask;
-
 extern int FreeTask;
-
 extern int FreeResource;
+extern int FreeEvent;
 
 void Schedule(int task,int mode);
 
 void Dispatch(int task);
 
+void CheckDeadlines(void);

@@ -1,88 +1,96 @@
 /*************************************/
-/*             resource.c            */
+/*             resource.cpp            */
 /*************************************/
 
 #include "sys.h"
 #include "rtos_api.h"
 #include <stdio.h>
 
-void GetResource(int priority,char* name)
+void GetResource(int priority, char* name)
 {
-	int free_occupy;
+    int free_occupy;
 
-	printf("GetResource %s\n",name);
+    printf("GetResource %s\n", name);
 
-	free_occupy=FreeResource;
+    // Get a free slot from the resource queue
+    free_occupy = FreeResource;
+    FreeResource = ResourceQueue[FreeResource].priority;
 
-	FreeResource=ResourceQueue[FreeResource].priority;
+    // Mark the resource as owned by the running task
+    ResourceQueue[free_occupy].priority = priority;
+    ResourceQueue[free_occupy].task = RunningTask;
+    ResourceQueue[free_occupy].name = name;
 
-	ResourceQueue[free_occupy].priority=priority;
-	ResourceQueue[free_occupy].task=RunningTask;
-	ResourceQueue[free_occupy].name=name;
-
-	if(TaskQueue[RunningTask].ceiling_priority < priority)
-	{
-		TaskQueue[RunningTask].ceiling_priority=priority;
-	}
-
+    // Implement priority ceiling protocol
+    if (TaskQueue[RunningTask].ceiling_priority < priority)
+    {
+        TaskQueue[RunningTask].ceiling_priority = priority;
+        printf("Priority ceiling raised to %d for task %s\n",
+               priority, TaskQueue[RunningTask].name);
+    }
 }
 
-void ReleaseResource(int priority,char* name)
+void ReleaseResource(int priority, char* name)
 {
-	int i,ResourceIndex;
+    int i, ResourceIndex;
 
-	printf("ReleaseResource %s\n",name);
+    printf("ReleaseResource %s\n", name);
 
-	if(TaskQueue[RunningTask].ceiling_priority == priority)
-	{
-		int res_priority, task_priority;
-		int our_task;
+    // Check if this is the highest priority resource held by the task
+    if (TaskQueue[RunningTask].ceiling_priority == priority)
+    {
+        int res_priority, task_priority;
+        int our_task;
 
-		our_task=RunningTask;
-		task_priority=TaskQueue[RunningTask].priority;
+        our_task = RunningTask;
+        task_priority = TaskQueue[RunningTask].priority;
 
-		for(i=0;i<MAX_RES;i++)
-		{
-			if(ResourceQueue[i].task!=RunningTask) continue;
+        // Find the resource being released
+        for (i = 0; i < MAX_RES; i++)
+        {
+            if (ResourceQueue[i].task != RunningTask) continue;
 
-			res_priority=ResourceQueue[i].priority;
+            res_priority = ResourceQueue[i].priority;
 
-			if(res_priority == priority && name == ResourceQueue[i].name)
-				ResourceIndex=i;
-			else
-				if(res_priority>task_priority) task_priority=res_priority;
-		}
+            if (res_priority == priority && ResourceQueue[i].name == name)
+                ResourceIndex = i;
+            else
+            if (res_priority > task_priority)
+                task_priority = res_priority;
+        }
 
-		TaskQueue[RunningTask].ceiling_priority=task_priority;
+        // Update the ceiling priority after release
+        TaskQueue[RunningTask].ceiling_priority = task_priority;
 
-		RunningTask=TaskQueue[RunningTask].ref;
+        // Handle preemption due to priority change
+        RunningTask = TaskQueue[RunningTask].ref;
+        Schedule(our_task, INSERT_TO_HEAD);
 
-		Schedule(our_task,INSERT_TO_HEAD);
+        // Free the resource
+        ResourceQueue[ResourceIndex].priority = FreeResource;
+        ResourceQueue[ResourceIndex].task = -1;
+        FreeResource = ResourceIndex;
 
-		ResourceQueue[ResourceIndex].priority=FreeResource;
-		ResourceQueue[ResourceIndex].task=-1;
-		FreeResource=ResourceIndex;
-		
-		if(our_task!=RunningTask)
-		{
-			Dispatch(our_task);
-		}
+        // If the task is preempted due to reduced priority
+        if (our_task != RunningTask && RunningTask != -1)
+        {
+            Dispatch(our_task);
+        }
+    }
+    else
+    {
+        // Find the specific resource to release
+        ResourceIndex = 0;
+        while (ResourceQueue[ResourceIndex].task != RunningTask ||
+               ResourceQueue[ResourceIndex].priority != priority ||
+               ResourceQueue[ResourceIndex].name != name)
+        {
+            ResourceIndex++;
+        }
 
-	}
-	else
-	{
-		ResourceIndex=0;
-
-		while(ResourceQueue[ResourceIndex].task != RunningTask ||
-				ResourceQueue[ResourceIndex].priority != priority ||
-				ResourceQueue[ResourceIndex].name != name)
-		{
-			ResourceIndex++;
-		}
-
-		ResourceQueue[ResourceIndex].priority=FreeResource;
-		ResourceQueue[ResourceIndex].task=-1;
-		FreeResource=ResourceIndex;
-		
-	}
+        // Free the resource
+        ResourceQueue[ResourceIndex].priority = FreeResource;
+        ResourceQueue[ResourceIndex].task = -1;
+        FreeResource = ResourceIndex;
+    }
 }
