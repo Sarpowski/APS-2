@@ -131,7 +131,6 @@ int SuspendTask(int task_id)
     return 0;
 }
 
-// Resume a suspended task
 int ResumeTask(int task_id)
 {
     if (task_id < 0 || task_id >= MAX_TASK)
@@ -140,8 +139,10 @@ int ResumeTask(int task_id)
         return -1;
     }
 
-    // Only resume if task is WAITING
-    if (TaskQueue[task_id].state == TASK_WAITING)
+    // Only resume if task is WAITING or newly created
+    if (TaskQueue[task_id].state == TASK_SUSPENDED ||
+        TaskQueue[task_id].state == TASK_WAITING ||
+        TaskQueue[task_id].ref == -1)  // This check is important!
     {
         TaskQueue[task_id].state = TASK_READY;
 
@@ -155,6 +156,12 @@ int ResumeTask(int task_id)
             int prev_running = RunningTask;
             RunningTask = task_id;
             Dispatch(prev_running);
+        }
+        else if (RunningTask == -1)
+        {
+            // If no task is running, dispatch this one
+            RunningTask = task_id;
+            Dispatch(-1);
         }
 
         printf("Task %s resumed\n", TaskQueue[task_id].name);

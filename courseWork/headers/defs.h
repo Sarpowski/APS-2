@@ -2,6 +2,9 @@
 /*           defs.h               */
 /****************************************/
 
+#ifndef DEFS_H   // Include guard
+#define DEFS_H
+
 #define MAX_TASK 32
 #define MAX_RES   16
 #define MAX_EVENT 16
@@ -21,3 +24,5 @@ enum T_TaskState{
 // Event status flags
 #define EVENT_CLEAR 0
 #define EVENT_SET 1
+
+#endif  // End of include guard

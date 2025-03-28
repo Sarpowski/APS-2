@@ -5,7 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Include necessary headers
+#include "sys.h"
 #include "rtos_api.h"
+#include "defs.h"
 
 // Declare tasks with RMA priorities (lower number = higher rate = higher priority)
 DeclareTask(TaskIdle, 16);     // Lowest priority
@@ -31,7 +34,8 @@ void TestRMA();
 extern int SystemTick;
 extern int TaskPeriods[MAX_TASK];
 extern int TaskDeadlines[MAX_TASK];
-
+extern TTask TaskQueue[MAX_TASK];
+extern int RunningTask;
 // Main test function
 int test(void)
 {
@@ -42,9 +46,7 @@ int test(void)
     char name[] = "TaskIdle";
     StartOS(TaskIdle, TaskIdleprior, name);
 
-    // Other tests will be triggered by TaskIdle
-
-    ShutdownOS();
+    // ShutdownOS will be called automatically in TaskIdle after tests
 
     return 0;
 }
@@ -67,9 +69,12 @@ TASK(TaskIdle)
     TestRMA();
 
     printf("TaskIdle: All tests completed\n");
+
+    // Call ShutdownOS directly to prevent entering the idle loop
+    ShutdownOS();
+
     TerminateTask();
 }
-
 // High priority task
 TASK(TaskHigh)
 {

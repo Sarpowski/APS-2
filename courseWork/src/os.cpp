@@ -3,6 +3,7 @@
 /******************************/
 
 #include <stdio.h>
+#include <cstdlib>
 #include "sys.h"
 #include "rtos_api.h"
 
@@ -61,7 +62,7 @@ void ShutdownOS()
 {
     printf("ShutdownOS!\n");
 }
-
+/*
 void IdleLoop()
 {
     // This function runs when no tasks are ready
@@ -74,6 +75,36 @@ void IdleLoop()
         CheckDeadlines();
 
         printf("System Idle. Tick: %d\n", SystemTick);
+    }
+}*/
+
+
+void IdleLoop()
+{
+    printf("DEBUG: Entered idle loop, RunningTask = %d\n", RunningTask);
+
+    // Limit the number of ticks to avoid infinite loop during debugging
+    int maxTicks = 30;
+    int currentTick = 0;
+
+    // This function runs when no tasks are ready
+    while(RunningTask == -1 && currentTick < maxTicks)
+    {
+        // Increment system tick
+        SystemTick++;
+        currentTick++;
+
+        // Check if any periodic tasks need to be activated
+        CheckDeadlines();
+
+        printf("System Idle. Tick: %d\n", SystemTick);
+    }
+
+    if (currentTick >= maxTicks) {
+        printf("DEBUG: Idle loop exited due to tick limit\n");
+        printf("DEBUG: No tasks were scheduled during idle period\n");
+        ShutdownOS();
+        exit(1); // Force exit for debugging
     }
 }
 
