@@ -18,25 +18,20 @@ void SetEvent(int event_id, char* name)
 
     printf("SetEvent %s\n", name);
 
-    // Set the event status
     EventQueue[event_id].status = EVENT_SET;
     EventQueue[event_id].name = name;
 
-    // Wake up any tasks waiting for this event
     for (i = 0; i < MAX_TASK; i++)
     {
         if (TaskQueue[i].waiting_event == event_id)
         {
             printf("Task %s woken up by event %s\n", TaskQueue[i].name, name);
 
-            // Mark task as ready
             TaskQueue[i].state = TASK_READY;
             TaskQueue[i].waiting_event = -1;
 
-            // Add to ready queue
             Schedule(i, INSERT_TO_TAIL);
 
-            // Check if we need to preempt the current task
             if (RunningTask != -1 &&
                 TaskQueue[i].ceiling_priority > TaskQueue[RunningTask].ceiling_priority)
             {
@@ -57,7 +52,6 @@ void ClearEvent(int event_id, char* name)
 
     printf("ClearEvent %s\n", name);
 
-    // Clear the event status
     EventQueue[event_id].status = EVENT_CLEAR;
 }
 
@@ -71,24 +65,18 @@ void WaitEvent(int event_id, char* name)
 
     printf("WaitEvent %s\n", name);
 
-    // If the event is already set, return immediately
     if (EventQueue[event_id].status == EVENT_SET)
     {
         printf("Event %s is already set, continuing\n", name);
         return;
     }
 
-    // Otherwise, block the task
     int current_task = RunningTask;
 
-    // Mark the task as waiting for this event
     TaskQueue[current_task].state = TASK_WAITING;
     TaskQueue[current_task].waiting_event = event_id;
-
-    // Remove from ready queue
     RunningTask = TaskQueue[current_task].ref;
 
-    // If no more tasks, enter idle loop
     if (RunningTask == -1)
     {
         IdleLoop();

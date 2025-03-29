@@ -42,17 +42,15 @@ int StartOS(TTaskCall entry, int priority, char* name)
     for(i = 0; i < MAX_RES; i++)
     {
         ResourceQueue[i].priority = i + 1;
-        ResourceQueue[i].task = -1;  // No task holds this resource
+        ResourceQueue[i].task = -1;
     }
     ResourceQueue[MAX_RES - 1].priority = -1;
 
-    // Initialize event queue
     for(i = 0; i < MAX_EVENT; i++)
     {
         EventQueue[i].status = EVENT_CLEAR;
     }
 
-    // Activate the first task
     ActivateTask(entry, priority, name);
 
     return 0;
@@ -83,18 +81,14 @@ void IdleLoop()
 {
     printf("DEBUG: Entered idle loop, RunningTask = %d\n", RunningTask);
 
-    // Limit the number of ticks to avoid infinite loop during debugging
     int maxTicks = 30;
     int currentTick = 0;
 
-    // This function runs when no tasks are ready
     while(RunningTask == -1 && currentTick < maxTicks)
     {
-        // Increment system tick
         SystemTick++;
         currentTick++;
 
-        // Check if any periodic tasks need to be activated
         CheckDeadlines();
 
         printf("System Idle. Tick: %d\n", SystemTick);
@@ -112,22 +106,16 @@ void CheckDeadlines()
 {
     int i;
 
-    // Check all tasks
     for(i = 0; i < MAX_TASK; i++)
     {
-        // Skip if task is not periodic
         if (TaskPeriods[i] <= 0) continue;
 
-        // Check if it's time to activate this task based on its period
         if ((SystemTick - TaskLastRun[i]) >= TaskPeriods[i])
         {
-            // Only activate if the task slot is free
             if (TaskQueue[i].ref != -1 && TaskQueue[i].state != TASK_RUNNING)
             {
-                // Reset last run time
                 TaskLastRun[i] = SystemTick;
 
-                // Reactivate the task
                 if (TaskQueue[i].entry != NULL)
                 {
                     ActivateTask(TaskQueue[i].entry, TaskQueue[i].priority, TaskQueue[i].name);
