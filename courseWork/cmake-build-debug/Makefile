@@ -248,30 +248,6 @@ src/resource.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\courseWork.dir\build.make CMakeFiles/courseWork.dir/src/resource.cpp.s
 .PHONY : src/resource.cpp.s
 
-src/semaphore.obj: src/semaphore.cpp.obj
-.PHONY : src/semaphore.obj
-
-# target to build an object file
-src/semaphore.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\courseWork.dir\build.make CMakeFiles/courseWork.dir/src/semaphore.cpp.obj
-.PHONY : src/semaphore.cpp.obj
-
-src/semaphore.i: src/semaphore.cpp.i
-.PHONY : src/semaphore.i
-
-# target to preprocess a source file
-src/semaphore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\courseWork.dir\build.make CMakeFiles/courseWork.dir/src/semaphore.cpp.i
-.PHONY : src/semaphore.cpp.i
-
-src/semaphore.s: src/semaphore.cpp.s
-.PHONY : src/semaphore.s
-
-# target to generate assembly for a file
-src/semaphore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\courseWork.dir\build.make CMakeFiles/courseWork.dir/src/semaphore.cpp.s
-.PHONY : src/semaphore.cpp.s
-
 src/task.obj: src/task.cpp.obj
 .PHONY : src/task.obj
 
@@ -344,9 +320,6 @@ help:
 	@echo ... src/resource.obj
 	@echo ... src/resource.i
 	@echo ... src/resource.s
-	@echo ... src/semaphore.obj
-	@echo ... src/semaphore.i
-	@echo ... src/semaphore.s
 	@echo ... src/task.obj
 	@echo ... src/task.i
 	@echo ... src/task.s

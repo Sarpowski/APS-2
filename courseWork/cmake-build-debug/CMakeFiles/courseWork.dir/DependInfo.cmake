@@ -13,7 +13,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/global.cpp" "CMakeFiles/courseWork.dir/src/global.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/global.cpp.obj.d"
   "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/os.cpp" "CMakeFiles/courseWork.dir/src/os.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/os.cpp.obj.d"
   "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/resource.cpp" "CMakeFiles/courseWork.dir/src/resource.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/resource.cpp.obj.d"
-  "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/semaphore.cpp" "CMakeFiles/courseWork.dir/src/semaphore.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/semaphore.cpp.obj.d"
   "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/task.cpp" "CMakeFiles/courseWork.dir/src/task.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/task.cpp.obj.d"
   "C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/test.cpp" "CMakeFiles/courseWork.dir/src/test.cpp.obj" "gcc" "CMakeFiles/courseWork.dir/src/test.cpp.obj.d"
   )

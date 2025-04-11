@@ -9,8 +9,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/courseWork.dir/src/os.cpp.obj.d"
   "CMakeFiles/courseWork.dir/src/resource.cpp.obj"
   "CMakeFiles/courseWork.dir/src/resource.cpp.obj.d"
-  "CMakeFiles/courseWork.dir/src/semaphore.cpp.obj"
-  "CMakeFiles/courseWork.dir/src/semaphore.cpp.obj.d"
   "CMakeFiles/courseWork.dir/src/task.cpp.obj"
   "CMakeFiles/courseWork.dir/src/task.cpp.obj.d"
   "CMakeFiles/courseWork.dir/src/test.cpp.obj"

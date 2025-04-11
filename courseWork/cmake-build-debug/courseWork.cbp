@@ -99,9 +99,6 @@
 		<Unit filename="C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/resource.cpp">
 			<Option target="courseWork"/>
 		</Unit>
-		<Unit filename="C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/semaphore.cpp">
-			<Option target="courseWork"/>
-		</Unit>
 		<Unit filename="C:/Users/Can/Desktop/architecture Course work/LinuxRepoCppStuff/courseWork/src/task.cpp">
 			<Option target="courseWork"/>
 		</Unit>
