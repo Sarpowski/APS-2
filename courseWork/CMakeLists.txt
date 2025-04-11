@@ -10,6 +10,8 @@ add_executable(courseWork main.cpp
         src/task.cpp
         src/test.cpp
         src/event.cpp
+        src/semaphore.cpp
+        src/semaphore.cpp
 )
 
 target_include_directories(courseWork

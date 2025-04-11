@@ -21,6 +21,65 @@ DeclareResource(Res2, 8);
 DeclareEvent(Event1);
 DeclareEvent(Event2);
 
+
+// Add these declarations to test.cpp
+DeclareSemaphore(Sem1, 6);
+DeclareSemaphore(Sem2, 4);
+
+// Add this task for semaphore testing
+TASK(TaskSemaphore)
+{
+    printf("TaskSemaphore: Running\n");
+    printf("TaskSemaphore: Waiting on semaphore\n");
+
+    SemaphoreWait(Sem1);
+
+    printf("TaskSemaphore: Acquired semaphore\n");
+    printf("TaskSemaphore: Doing work with the semaphore...\n");
+
+    // Simulate work
+    DelayTask(2);
+
+    printf("TaskSemaphore: Releasing semaphore\n");
+    SemaphoreSignal(Sem1);
+
+    TerminateTask();
+}
+
+// Add this test function
+void TestSemaphores()
+{
+    printf("\n--- Testing Semaphores ---\n");
+
+    // Initialize the semaphore system
+    InitSemaphores();
+
+    // Create semaphores
+    CreateSemaphore(Sem1, (char*)"Sem1");
+    CreateSemaphore(Sem2, (char*)"Sem2");
+
+    // Create tasks
+    int task1 = CreateTask(TaskSemaphore, 3, (char*)"Task1");
+    int task2 = CreateTask(TaskSemaphore, 8, (char*)"Task2");
+
+    printf("Main: Starting Task1\n");
+    ResumeTask(task1);
+
+    DelayTask(1);
+
+    printf("Main: Starting Task2\n");
+    ResumeTask(task2);
+
+    // Task2 should be blocked until Task1 releases the semaphore
+
+    printf("--- Semaphore Test Complete ---\n");
+}
+
+
+
+
+
+
 void TestTaskPreemption();
 void TestResourceManagement();
 void TestEventManagement();
@@ -49,7 +108,9 @@ int test(void)
 TASK(TaskIdle)
 {
     printf("TaskIdle: Starting tests\n");
-
+// Add this line to the TASK(TaskIdle) function in test.cpp
+// after the other tests:
+    TestSemaphores();
     TestTaskPreemption();
     TestResourceManagement();
     TestEventManagement();

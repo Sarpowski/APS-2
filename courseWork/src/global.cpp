@@ -4,16 +4,19 @@
 
 #include "sys.h"
 
+
 // System queues
 TTask TaskQueue[MAX_TASK];          // Task queue
 TResource ResourceQueue[MAX_RES];    // Resource queue
 TEvent EventQueue[MAX_EVENT];        // Event queue
+TSemaphore SemaphoreQueue[MAX_RES];  // Semaphore queue - add this line
 
 // System state variables
 int RunningTask = -1;                // No running task initially
 int FreeTask = 0;                    // First free task slot
 int FreeResource = 0;                // First free resource slot
 int FreeEvent = 0;                   // First free event slot
+int FreeSemaphore = 0;               // First free semaphore slot - add this line
 
 // RMA specific variables
 int SystemTick = 0;                  // System tick counter

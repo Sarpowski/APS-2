@@ -48,3 +48,15 @@ int ResumeTask(int task_id);                  // Resume a suspended task
 // RMA specific functions
 void SetTaskPeriod(int task_id, int period);  // Set the period for a task
 void SetTaskDeadline(int task_id, int deadline);  // Set the deadline for a task
+
+
+
+// Semaphore declaration macro
+#define DeclareSemaphore(SemID, priority) \
+    enum {SemID = priority}
+
+// Semaphore management functions
+void InitSemaphores(void);                     // Initialize the semaphore system
+int CreateSemaphore(int priority, char* name); // Create a new semaphore
+int SemaphoreWait(int sem_id);                // Wait operation (P)
+int SemaphoreSignal(int sem_id);              // Signal operation (V)
